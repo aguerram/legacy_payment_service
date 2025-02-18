@@ -1,0 +1,3 @@
+export enum EventsTypes {
+    MOBILE_DOCUMENTS_UPLOADED = "MOBILE_DOCUMENTS_UPLOADED"
+}

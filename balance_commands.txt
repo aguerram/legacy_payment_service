@@ -1,0 +1,62 @@
+
+// payouts sent to bank mongo query
+db.getCollection('balances').aggregate([
+      {
+        $match: {
+          merchant_id: ObjectId("Merchant ID goes here"),
+          status: "pending"
+        },
+      },
+      {
+        $group: {
+          _id: '$status',
+          total: {
+            $sum: "$amount",
+          },
+        },
+      }
+    ])
+
+// payouts on Hold mongo query
+db.getCollection('transactions').aggregate([
+      {
+        $match: {
+          merchant_id: ObjectId("Merchant ID goes here"),
+          status: "succeeded",
+          createdAt: {
+            $gte: new Date("2021-03-24T18:0:0.162Z") // update the day only to yesterday          
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$status',
+          total: {
+            $sum: "$amount",
+          },
+        },
+      }
+    ])
+
+
+    // payouts on Hold mongo query
+db.getCollection('transactions').aggregate([
+      {
+        $match: {
+          merchant_id: ObjectId("Merchant ID goes here"),
+          status: "succeeded",
+          createdAt: {
+            $gte: new Date("2021-03-24T0:0:0.162Z"), // update the day only to yesterday   
+            $lte:new Date("2021-03-24T18:0:0.162Z") // update the day only to yesterday     
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$status',
+          total: {
+            $sum: "$amount",
+          },
+        },
+      }
+    ])
